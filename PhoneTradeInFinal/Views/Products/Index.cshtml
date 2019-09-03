@@ -1,0 +1,44 @@
+﻿@model IEnumerable<PhoneTradeInFinal.Models.Product>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Accepted Devices</h2>
+
+<p>
+   @*@ @Html.ActionLink("Create New", "Create") *@
+</p>
+<div>
+    <p><small class="text-muted">As of: @DateTime.Now.ToString("M/d/yyyy")</small></p>
+    <hr />
+    <div class="container">
+        <div class="card-deck mb-3 text-center">
+            <div class="row">
+                @foreach (var product in Model)
+                {
+                    <div class="col-sm-4">
+                        <div class="card mb-4 box-shadow">
+                            <div class="card-header">
+                                <h4 class="my-0 font-weight-normal">@Html.DisplayFor(Product => product.Name)</h4>
+                            </div>
+                            <div class="card-body">
+                                <img src="@product.Photo" width="60" />
+                                <h1 class="card-title pricing-card-title">$@Html.DisplayFor(Product => product.Price)<small class="text-muted"> up to*</small></h1>
+                                <p><small class="text-muted">@Html.DisplayFor(Product => product.Id)</small></p>
+                                <a href="@Url.Action("Buy", "Cart", new { id = product.Id })" class="btn btn-lg btn-block btn-primary">Trade In</a>
+                              @*  @Html.ActionLink("Edit", "Edit", new { id = product.Id }) |
+                                @Html.ActionLink("Details", "Details", new { id = product.Id }) |
+                                @Html.ActionLink("Delete", "Delete", new { id = product.Id })*@
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

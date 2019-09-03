@@ -1,0 +1,63 @@
+﻿@model PhoneTradeInFinal.Models.ProductModel
+
+@{
+    ViewBag.Title = "CartView";
+}
+@using PhoneTradeInFinal.Models;
+
+
+<div>
+    <h2 class="h2">Total Estimated Trade In Value</h2>
+    <!--<h4>ProductModel</h4>-->
+    <hr />
+    @if ((List<Item>)Session["cart"] == null)
+    {
+        <p>Your Cart is Currently Empty.</p>
+    }
+    else
+    {
+        <table class="table table-borderless">
+            <tr><th> </th><th>Product ID</th><th>Device Name</th><th>Photo</th><th>Estimate</th><th>Quantity</th></tr>
+            @foreach (Item item in (List<Item>)Session["cart"])
+            {
+                <tr>
+                    <td>
+                        <a href="@Url.Action("Remove", "Cart", new { id = item.Product.Id })">Remove</a>
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(Item => item.Product.Id)
+                    </td>
+
+
+                    <td>
+                        @Html.DisplayFor(Item => item.Product.Name)
+                    </td>
+
+                    <td>
+                        <img src="@item.Product.Photo" width="60" />
+                    </td>
+
+                    <td>
+                        $@Html.DisplayFor(Item => item.Product.Price)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(Item => item.Quantity)
+                    </td>
+                </tr>
+            }
+        </table>
+        List<Item> cart = (List<Item>)Session["cart"];
+        var total = cart.Sum(item => item.Product.Price * item.Quantity);
+
+        <h4> Total Trade In Value: @total</h4>
+        <p> <a href="@Url.Action("RequestEmail", "Cart")" class="btn btn-lg btn-block btn-primary">REQUEST QUOTE</a></p>
+    }
+    <p> <a href="@Url.Action("Index", "Products")">Trade In More Devices</a></p>
+</div>
+
+<p>
+    @*@Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+        @Html.ActionLink("Back to List", "Index")*@
+</p>
